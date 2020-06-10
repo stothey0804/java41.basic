@@ -9,9 +9,9 @@ public class PlayerApp {
 		Player[] player = new Player[3];
 		for(int i = 0; i < player.length; i++) {
 			player[i] = new Player(); // initialize
-			System.out.println("ÀÌ¸§À» ÀÔ·ÂÇÏ¼¼¿ä.");
+			System.out.println("ì´ë¦„ì„ ìž…ë ¥í•˜ì„¸ìš”.");
 			player[i].setName(scan.next());
-			System.out.println("±â·ÏÀ» ÀÔ·ÂÇÏ¼¼¿ä.");
+			System.out.println("ì†ë„ë¥¼ ìž…ë ¥í•˜ì„¸ìš”.");
 			player[i].setRecord(scan.nextInt());
 		}
 		
@@ -25,27 +25,38 @@ public class PlayerApp {
 //				}
 //			}
 //		}
-		
 		Player[] ranking = new Player[3];
-		if(player[0].getRecord() < player[1].getRecord()) {
-			if(player[0].getRecord() < player[2].getRecord()) {
-				ranking[0] = player[0];
-			}else{
-				ranking[0] = player[2];
+		for(int j = 0; j < player.length; j++) {
+			for(int i = 0 ; i < player.length-1; i++) {
+				if(player[i].getRecord() < player[i+1].getRecord()) {
+					ranking[j] = player[i+1];
+				}
+				else {
+					ranking[j] = player[i];
+				}
 			}
-		}else {
-			if(player[1].getRecord() < player[2].getRecord()) {
-				ranking[0] = player[1];
-			}else {
-				ranking[0] = player[2];
-			}
-			
 		}
-		System.out.println(ranking[0].getName() + "°¡ 1µîÀÌ´Ù.");
+		
+
+//		if(player[0].getRecord() < player[1].getRecord()) {
+//			if(player[0].getRecord() < player[2].getRecord()) {
+//				ranking[0] = player[0];
+//			}else{
+//				ranking[0] = player[2];
+//			}
+//		}else {
+//			if(player[1].getRecord() < player[2].getRecord()) {
+//				ranking[0] = player[1];
+//			}else {
+//				ranking[0] = player[2];
+//			}
+//			
+//		}
+//		System.out.println(ranking[0].getName() + "ê°€ 1ë“±ìž…ë‹ˆë‹¤.");
 		
 		/* *
-		 System.out.println(player[0].getName() + "ÀÌ(°¡) "
-					+ player[1].getName() + "º¸´Ù ºü¸£´Ù.");
+		 System.out.println(player[0].getName() + "ì´) "
+					+ player[1].getName() + "ë³´ë‹¤ ë¹ ë¥´ë‹¤.");
 		 * */
 		
 		for(int i = 0; i < player.length; i++) {

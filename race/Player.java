@@ -10,6 +10,9 @@ public class Player {
 	public void setRecord(int record) {
 		this.record = record;
 	}
+	public String getName() {
+		return this.name;
+	}
 	public int getRecord() {
 		return this.record;
 	}

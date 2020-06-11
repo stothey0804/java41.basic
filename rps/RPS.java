@@ -1,8 +1,8 @@
-package test;
+package rps;
 
 import java.util.Scanner;
 
-public class RPC {
+public class RPS {
 
 	public static void main(String[] args) {
 		
@@ -17,7 +17,7 @@ public class RPC {
 			user = scan.nextInt();
 		}
 				
-		int com = (int) Math.random() * 3 + 1;	// computer selection ( 1 ~ 3 )
+		int com = (int) ( Math.random() * 3 ) + 1;	// computer selection ( 1 ~ 3 )
 		
 		
 		System.out.println("user의 선택: " + rpcSelect(user));
@@ -30,7 +30,7 @@ public class RPC {
 		
 	}
 	
-	static String confirmResult(int user, int com) {		
+	private static String confirmResult(int user, int com) {		
 		if(user == com) {
 			return "비겼습니다.";
 		}else if( (user == 1 && com == 2) || (user == 2 && com == 3) || (user == 3 && com == 1)) {
@@ -40,16 +40,12 @@ public class RPC {
 		}
 	}
 	
-	static String rpcSelect(int num) {
-		switch (num) {
-		case 1:
-			return "가위";			
-		case 2:
-			return "바위";
-		case 3:
-			return "보";
-		default:
-			return "오류";
+	private static String rpcSelect(int param) {
+		switch (param) {
+		case 1:		return "가위";			
+		case 2:		return "바위";
+		case 3:		return "보";
+		default:	return "오류";
 		}
 	}
 

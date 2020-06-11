@@ -25,31 +25,28 @@ public class PlayerApp {
 //				}
 //			}
 //		}
-		Player[] ranking = new Player[3];
+		//Player[] ranking = new Player[3];
+		String name = "";
+//		if(player[0].getRecord() < player[1].getRecord()
+//				&& player[0].getRecord() < player[2].getRecord()) {
+//				name = player[0].getName();
+//		}else if(player[1].getRecord() < player[0].getRecord()
+//				&& player[1].getRecord() < player[2].getRecord()){
+//				name = player[1].getName();
+//		}else {
+//			name = player[2].getName();
+//		}
+		
+		
 		for(int j = 0; j < player.length; j++) {
-			for(int i = 0 ; i < player.length-1; i++) {
-				if(player[i].getRecord() < player[i+1].getRecord()) {
-					ranking[j] = player[i+1];
-				}
-				else {
-					ranking[j] = player[i];
-				}
+			for(int i = 0 ; i < player.length; i++) {
+				if(player[j].getRecord() < player[i].getRecord()) {
+					name = player[j].getName();
+			}
 			}
 		}
 		
-
-//		if(player[0].getRecord() < player[1].getRecord()) {
-//			if(player[0].getRecord() < player[2].getRecord()) {
-//				ranking[0] = player[0];
-//			}else{
-//				ranking[0] = player[2];
-//			}
-//		}else {
-//			if(player[1].getRecord() < player[2].getRecord()) {
-//				ranking[0] = player[1];
-//			}else {
-//				ranking[0] = player[2];
-//			}
+		System.out.println("1등 : "+ name);
 //			
 //		}
 //		System.out.println(ranking[0].getName() + "가 1등입니다.");
@@ -64,5 +61,5 @@ public class PlayerApp {
 		}
 				
 	}
-
 }
+

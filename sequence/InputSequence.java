@@ -18,12 +18,12 @@ public class InputSequence {
 		int[] arr = new int[max];
 		for(int i = 0; i < max; i++) {
 			arr[i] = i + 1;
-		}
+		}	
 		
-		System.out.println("1부터 " + max + "의 값을 구합니다.");
+		System.out.println("1부터 " + max + " 중 홀수를 더한 값 >>");
 		
 		// 홀수의 합 구하기
-		for(int i = 0; i < arr.length; i+=2) {
+		for(int i = 1; i < arr.length; i+=2) {
 			//System.out.println(">> " + arr[i]);
 			sum += arr[i];
 		}

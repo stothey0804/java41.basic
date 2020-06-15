@@ -10,9 +10,7 @@ public class FigureScroe {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		int[] score = new int[5];
-		int total = 0;
-		int min = 100;
-		int max = 0;
+		int total = 0, min = 100, max = 0;
 		
 		System.out.println("[심사위원 점수 입력]"); 
 		for(int i = 0; i < score.length; i++) {

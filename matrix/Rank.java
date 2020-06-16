@@ -1,5 +1,6 @@
 package matrix;
 
+import java.util.Random;
 import java.util.Scanner;
 
 /*
@@ -9,29 +10,29 @@ import java.util.Scanner;
 
 class Student{
 	int score;
-	String name;
+	//String name;
 }
 
 public class Rank {
 	public static void main(String[] args) {
-		Scanner scan = new Scanner(System.in);
-		Student[] score = new Student[5];
-		
+		//Scanner scan = new Scanner(System.in);
+		Random random = new Random();
+		Student[] score = new Student[5];	
 		
 		// Input
 		for(int i = 0; i < score.length; i++) {
 			score[i] = new Student();
-			System.out.printf("[%d번째 학생 정보]\n", i+1);
-			System.out.println("이름: ");
-			score[i].name = scan.next();
-			System.out.println("점수: ");
-			score[i].score = scan.nextInt();
+			//System.out.printf("[%d번째 학생 정보]\n", i+1);
+			//System.out.println("이름: ");
+			//score[i].name = scan.next();
+			//System.out.println("점수: ");
+			score[i].score = random.nextInt(101);
 		}
 		
 		// Sorting
 		for(int i = 0; i < score.length; i++) {
-			for(int j = 0; i > j; j++) {
-				if(score[i].score > score[j].score) {					
+			for(int j = 0; i > j; j++) {  
+				if(score[j].score < score[i].score) {					
 					Student temp = score[i]; 
 					score[i] = score[j];
 					score[j] = temp;
@@ -41,7 +42,7 @@ public class Rank {
 		
 		// Print		
 		for(int i = 0; i < score.length; i++) {
-			System.out.printf("%d등\t%s\t%d점\n", i+1, score[i].name, score[i].score);
+			System.out.printf("%d등\t%d점\n", i+1,  score[i].score);
 		}
 				
 	}

@@ -18,13 +18,15 @@ class Lotto2{
 	
 	public void setLottos(int[][] lottos) {
 		lotto = new int[6];
+		lottos = new int[lottoCount][6];
 		for(int i = 0; i < lottoCount; i++) {
 			for(int j = 0; j < 6; j++) {
-				int num = (int)(Math.random() * 45) + 1;
+				int num = (int)(Math.random() * 45 + 1);
 				if(isDuplicate(num)) {
-					lotto[j] = num;
-					break;
+					j--;
+					continue;
 				}
+				lotto[j] = num;
 			}
 			sort(lotto);
 			System.arraycopy(lotto, 0, lottos[i], 0, lotto.length);
@@ -39,7 +41,7 @@ class Lotto2{
 	public int[] sort(int[] arr) {
 		for(int i = 0; i < arr.length-1; i++) {
 			for(int j = i+1; j < arr.length ; j++) {
-				if(arr[j] > arr[i]) {
+				if(arr[i] > arr[j]) {
 					int temp = arr[i];
 					arr[i] = arr[j];
 					arr[j] = temp;
@@ -71,7 +73,7 @@ class Lotto2{
 	
 	public boolean isDuplicate(int num) {
 		boolean ok = false;
-		for(int i = 0; i < lottos.length; i++) {
+		for(int i = 0; i < lotto.length; i++) {
 			if(this.lotto[i] == num) ok = true;
 		}
 		return ok;
@@ -99,7 +101,7 @@ public class LottoApp2 {
 		Lotto2 instance = new Lotto2();
 		System.out.println("구매한도 설정");
 		instance.setCountLimit(scan.nextInt());
-		System.out.printf("구매한도: %d장", instance.getCountLImit());
+		System.out.printf("구매한도: %d장\n", instance.getCountLImit());
 		while(true) {
 			System.out.println("1. 로또 구입   0. 종료");
 			switch(scan.nextInt()) {
@@ -115,8 +117,17 @@ public class LottoApp2 {
 
 	private static void buyLottos(Lotto2 instance, Scanner scan) {
 		System.out.println("몇원어치 발급합니까?");
-		System.out.printf("로또 %d장 발급합니다.", instance.lottoCount(scan.nextInt()));	
-		int [][] lottos = instance.getLottos();
+		System.out.printf("로또 %d장 발급합니다.\n", instance.lottoCount(scan.nextInt()));	
+		int [][] lottos = null;
+		instance.setLottos(lottos);
+		lottos = instance.getLottos();
+		
+		for(int i = 0; i < lottos.length; i++) {
+			for(int j = 0; j < lottos[i].length; j++) {
+				System.out.print(lottos[i][j]+"\t");
+			}
+			System.out.println("");
+		}
 		
 	}
 }

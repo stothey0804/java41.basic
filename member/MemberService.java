@@ -3,7 +3,7 @@ package member;
 public interface MemberService {
 	public void join(Member member);	// 1. 회원가입
 	public void myPage(Member member);	// 2. 마이페이지
-	public void editPassword(Member member, String password);// 3. 비번수정
+	public void editPassword(Member member);// 3. 비번수정
 	public void quitMember(Member member); // 4. 회원 탈퇴
 	public void idCheck(String id);		// 5. 아이디 존재체크
 	public boolean login(Member member);	// 6. 로그인	

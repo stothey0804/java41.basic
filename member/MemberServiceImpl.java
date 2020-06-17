@@ -20,7 +20,8 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public boolean login(Member member) {		
+	public boolean login(Member member) {
+		
 		for(int i = 0; i < count; i++) {
 			if( members[i].getUserid().equals(member.getUserid())
 					&& members[i].getPassword().equals(member.getPassword()) ) {
@@ -57,12 +58,12 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public void editPassword(Member member, String password) {
+	public void editPassword(Member member) {
 		for(int i = 0; i < count; i++) {
-			if( members[i].getUserid().equals(member.getUserid()) ) members[i].setPassword(password);	break;
+			if( members[i].getUserid().equals(member.getUserid()) ) members[i].setPassword(member.getPassword()); break;
 
 		}
-		System.out.println("변경된 패스워드: " + password);
+		System.out.println("변경된 패스워드: " + member.getPassword());
 		
 	}
 
@@ -76,7 +77,6 @@ public class MemberServiceImpl implements MemberService{
 			}
 		}		
 		members[--count] = null;
-		
 		
 	}
 

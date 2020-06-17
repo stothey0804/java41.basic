@@ -58,9 +58,11 @@ public class MemberApp {
 				member.setUserid(scan.next());
 				System.out.println("비밀번호: ");
 				member.setPassword(scan.next());
+				// 기존값을 찾아서 
 				if(ms.login(member)) {
 					System.out.println("변경할 비밀번호를 입력해주세요.");					
-					ms.editPassword(member, scan.next());
+					member.setPassword(scan.next());
+					ms.editPassword(member);
 				}
 				else{
 					System.out.println("로그인 실패");

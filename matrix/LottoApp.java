@@ -25,18 +25,19 @@ class Lotto{
 		return k;
 	}
 	
-	public void generateNumber(Random random, int k) {	// 2. 번호생성
+	public void generateNumber(int k) {	// 2. 번호생성
 		for(int j = 0; j < k; j++) {
-			// 숫자생성(중복없이)
 			for(int i = 0; i < this.lotto[j].length; i++) {
-				int temp = random.nextInt(45)+1;
-				if(this.isDuplication(this.lotto[j], temp)) {
+				int temp = (int)(Math.random() * 45) + 1;
+				if(this.isDuplication(this.lotto[j], temp)) {	// 중복체크
 					i--;
 					continue;
 				}
 				this.lotto[j][i] = temp;
 			}
+			this.sort(lotto[j]);	// 정렬
 		}
+		
 	}
 	
 	public boolean isDuplication(int[] lotto, int temp) {	// 중복체크
@@ -47,6 +48,19 @@ class Lotto{
 			}
 		}
 		return ok;
+	}
+	
+	public int[] sort(int[] arr) {	// 정렬
+		for(int i = 0; i < arr.length-1; i++) {
+			for(int j = i+1; j < arr.length ; j++) {
+				if(arr[i] > arr[j]) {
+					int temp = arr[i];
+					arr[i] = arr[j];
+					arr[j] = temp;
+				}
+			}
+		}
+		return arr;
 	}
 	
 	public void printNumber(int k) {	// 3. 번호 출력
@@ -68,11 +82,10 @@ class Lotto{
 
 public class LottoApp {	
 	public static void main(String[] args) {
-		Random random = new Random();
-		Lotto instance = new Lotto();
 		
+		Lotto instance = new Lotto();
 		int k = instance.inputAmount();	// 1. 구매 수량 입력
-		instance.generateNumber(random, k);	// 2. 로또번호 생성
+		instance.generateNumber(k);	// 2. 로또번호 생성		
 		instance.printNumber(k); // 3. 로또 번호 출력
 	}
 

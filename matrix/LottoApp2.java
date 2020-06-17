@@ -35,6 +35,7 @@ class Lotto2{
 	}
 	
 	public int[][] getLottos(){
+		setLottos(lottos);
 		return lottos;
 	}
 
@@ -119,7 +120,6 @@ public class LottoApp2 {
 		System.out.println("몇원어치 발급합니까?");
 		System.out.printf("로또 %d장 발급합니다.\n", instance.lottoCount(scan.nextInt()));	
 		int [][] lottos = null;
-		instance.setLottos(lottos);
 		lottos = instance.getLottos();
 		
 		for(int i = 0; i < lottos.length; i++) {

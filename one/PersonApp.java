@@ -77,8 +77,8 @@ class Student extends Person{
 	public void setSsn(String ssn) {this.ssn = ssn;}
 	public String getSsn() {return this.ssn;}
 	public void setGender() {
-		if(this.ssn.substring(6, 7).equals("2"))	this.gender="여";
-		else if(this.ssn.substring(6, 7).equals("1"))	this.gender="남";
+		if(this.ssn.substring(6, 7).equals("2") || this.ssn.substring(6, 7).equals("4") )	this.gender="여";
+		else if(this.ssn.substring(6, 7).equals("1") || this.ssn.substring(6, 7).equals("3") )	this.gender="남";
 		else	this.gender="?";
 	}
 	
@@ -122,13 +122,13 @@ interface PersonService{
 	/** 8. 회원목록 */ 
 	public void studentList();
 	/** 9. 아이디검색 */ 
-	public void idSearch();
+	public String idSearch(String id);
 	/** 10. 이름검색  */
-	public void nameSearch();
+	public Student[] nameSearch(Student member);
 	/** 11. 전체 회원수 */ 
-	public void studentCount();
+	public int studentCount();
 	/** 12. 성적별 현황 */
-	public void gradeRank();
+	public Student[] gradeRank();
 }
 
 class PersonServiceImpl implements PersonService{
@@ -233,27 +233,60 @@ class PersonServiceImpl implements PersonService{
 	}
 
 	@Override
-	public void idSearch() {
-		/** 9. 아이디검색 */ 
-		
+	public String idSearch(String id) {
+		/** 9. 아이디검색 */
+		String result = "존재하지 않는 아이디";
+		for(int i = 0 ; i < count; i++) {
+			if(id.equals(students[i].getId()))	result = students[i].toString();
+		}
+		return result;
 	}
 
 	@Override
-	public void nameSearch() {
+	public Student[] nameSearch(Student member) {
 		/** 10. 이름검색  */
+		int cnt = 0;
+		// 중복값 처리할 것
+		for(int i = 0; i < count; i++ ) {
+			if(member.getName().equals(students[i].getName())) {
+				cnt++;
+			}
+		}
+		Student[] result = new Student[cnt];
+		int k = 0;
+		for(int i = 0; i < count; i++) {
+			if(member.getName().equals(students[i].getName())) {
+				result[k] = students[i];
+				k++;
+				if(k == cnt)	break;
+			}
+		}
+		return result;
 
 	}
 
 	@Override
-	public void studentCount() {
+	public int studentCount() {
 		/** 11. 전체 회원수 */ 
-
+		return count;
 	}
 
 	@Override
-	public void gradeRank() {
+	public Student[] gradeRank() {
 		/** 12. 성적별 현황 */
-
+		Student[] result = this.students;
+		int maxIdx;
+		for(int i = 0; i < result.length-1; i++) {
+			maxIdx = i;
+			for(int j = i+1; j < result.length; j++) {
+				if(result[j].getScore() > result[maxIdx].getScore()) {
+					Student temp = result[maxIdx];
+					result[maxIdx] = result[j];
+					result[j] = temp;
+				}
+			}
+		}		
+		return result;
 	}
 	
 }
@@ -274,7 +307,7 @@ public class PersonApp {
 				studentMenu(scan, service, member);
 				break;
 			case 2:	// 관리자메뉴
-				adminMenu(scan, service);
+				adminMenu(scan, service, member);
 				break;
 			default:
 				System.out.println(Constants.ERROR_MESSAGE);		break;
@@ -299,11 +332,11 @@ public class PersonApp {
 			System.out.println("이름: ");
 			member.setName(scan.next());
 			System.out.println("주민번호: ");
-			while(true) {
+			//while(true) {
 				member.setSsn(scan.next());
-				if(member.getSsn().length() == 13)	break;
-				else System.out.println("주민번호는 13자리로 입력해주세요.");
-			}
+				//if(member.getSsn().length() == 13)	break;
+				//else System.out.println("주민번호는 13자리로 입력해주세요.");
+			//}
 			member.setGender();
 			service.join(member);
 			break;
@@ -355,7 +388,7 @@ public class PersonApp {
 		}
 	}
 	
-	public static void adminMenu(Scanner scan, PersonService service) {
+	public static void adminMenu(Scanner scan, PersonService service, Student member) {
 		System.out.println(Constants.ADMIN_MENU);
 		switch (scan.nextInt()) {
 		case 0:
@@ -366,15 +399,27 @@ public class PersonApp {
 			break;
 		case 2:
 			System.out.println("아이디검색");
+			System.out.println("아이디: ");
+			System.out.println(service.idSearch(scan.next()));
 			break;
 		case 3:
 			System.out.println("이름검색");
+			member = new Student();		
+			System.out.println("이름: ");
+			member.setName(scan.next());
+			for(Student m: service.nameSearch(member) ) {
+				System.out.println(m.toString());
+			}
 			break;
 		case 4:
 			System.out.println("전체 회원수");
+			System.out.printf("총 회원수는 %d명입니다.\n", service.studentCount());
 			break;
 		case 5:
 			System.out.println("성적별 현황");
+			for(Student m: service.gradeRank()) {
+				System.out.println(m.toString());
+			}
 			break;
 		default:	System.out.println(Constants.ERROR_MESSAGE);	break;
 		}

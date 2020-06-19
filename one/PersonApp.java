@@ -108,17 +108,17 @@ interface PersonService{
 	/** 1. 회원가입  */
 	public void join(Student member);
 	/** 2. 로그인  */  
-	public void login(Student member);
+	public String login(Student member);
 	/** 3. 비번 수정  */
-	public void changePass();
+	public String changePass(Student member);
 	/** 4. 회원탈퇴  */
-	public void remove();
+	public String remove(Student member);
 	/** 5. 아이디 존재 체크 */ 
-	public void existId();
+	public String existId(String id);
 	/** 6. 마이페이지 */ 
-	public void mypage();
+	public String mypage(String id);
 	/** 7. 점수 입력 */
-	public void score();
+	public String score(Student member);
 	/** 8. 회원목록 */ 
 	public void studentList();
 	/** 9. 아이디검색 */ 
@@ -148,44 +148,79 @@ class PersonServiceImpl implements PersonService{
 	}
 
 	@Override
-	public void login(Student member) {
+	public String login(Student member) {
 		/** 2. 로그인  */  
+		String result = "로그인 실패";
 		for(int i = 0; i < count; i++) {
 			if(member.getId().equals(students[i].getId())
 					&& member.getPass().equals(students[i].getPass())) {
-				System.out.println("로그인 성공");
-			}else{	System.out.println("로그인 실패");}
+				result = "로그인 성공";
+				break;
+			}
 		}
+		return result;
 	}
 
 	@Override
-	public void changePass() {
+	public String changePass(Student member) {
 		/** 3. 비번 수정  */
-		
+		String result = "아이디를 찾을 수 없습니다.";
+		for(int i = 0 ; i < count; i++) {
+			if(member.getId().equals(students[i].getId())) {
+				students[i].setPass(member.getPass());
+				result = "변경완료";
+				break;
+			}
+		}
+		return result;
 	}
 
 	@Override
-	public void remove() {
+	public String remove(Student member) {
 		/** 4. 회원탈퇴  */
-		
+		String result = "아이디를 찾을 수 없습니다.";
+		for(int i = 0 ; i < count; i++) {
+			if(member.getId().equals(students[i].getId())) {
+				students[i] = students[count-1];
+				count--;
+				result = "탈퇴완료";
+				break;
+			}
+		}
+		return result;
 	}
 
 	@Override
-	public void existId() {
+	public String existId(String id) {
 		/** 5. 아이디 존재 체크 */ 
-		
+		String result = "중복없음";
+		for(int i = 0 ; i < count; i++) {
+			if(id.equals(students[i].getId()))	result = "사용중인 ID입니다.";	break;
+		}
+		return result;
 	}
 
 	@Override
-	public void mypage() {
+	public String mypage(String id) {
 		/** 6. 마이페이지 */ 
-		
+		String result = "아이디를 찾을 수 없습니다.";
+		for(int i = 0; i < count; i++) {
+			if(id.equals(students[i].getId()))	result = students[i].toString();	break;	
+		}
+		return result;
 	}
 
 	@Override
-	public void score() {
+	public String score(Student member) {
 		/** 7. 점수 입력 */
-		
+		String result = "아이디를 찾을 수 없습니다.";
+		for(int i = 0; i < count; i++) {
+			if(member.getId().equals(students[i].getId())) {
+				students[i].setScore(member.getScore());
+				result = "입력완료";
+			}
+		}
+		return result;
 	}
 
 	@Override
@@ -200,7 +235,7 @@ class PersonServiceImpl implements PersonService{
 	@Override
 	public void idSearch() {
 		/** 9. 아이디검색 */ 
-
+		
 	}
 
 	@Override
@@ -227,18 +262,19 @@ class PersonServiceImpl implements PersonService{
 public class PersonApp {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
-		PersonService instance = new PersonServiceImpl();
-		//Admin admin = new Admin();
+		PersonService service = new PersonServiceImpl();
+		Student member = null;
+		Admin admin = null;
 		
 		while(true) {
 			System.out.println(Constants.MAIN_MENU);
 			switch (scan.nextInt()) {
 			case 0:	System.out.println(Constants.EXIT_MENU);	return;
 			case 1:	// 사용자메뉴				
-				studentMenu(scan, instance);
+				studentMenu(scan, service, member);
 				break;
 			case 2:	// 관리자메뉴
-				adminMenu(scan, instance);
+				adminMenu(scan, service);
 				break;
 			default:
 				System.out.println(Constants.ERROR_MESSAGE);		break;
@@ -247,8 +283,8 @@ public class PersonApp {
 
 	}
 	
-	public static void studentMenu(Scanner scan, PersonService instance) {
-		Student member = null;
+	public static void studentMenu(Scanner scan, PersonService service, Student member) {
+		
 		System.out.println(Constants.STUDENT_MENU);
 		switch(scan.nextInt()){
 		case 0:
@@ -269,7 +305,7 @@ public class PersonApp {
 				else System.out.println("주민번호는 13자리로 입력해주세요.");
 			}
 			member.setGender();
-			instance.join(member);
+			service.join(member);
 			break;
 		case 2:
 			System.out.println("로그인");
@@ -278,35 +314,55 @@ public class PersonApp {
 			member.setId(scan.next());
 			System.out.println("비밀번호: ");
 			member.setPass(scan.next());
-			instance.login(member);
+			System.out.println(service.login(member));
 			break;
 		case 3:
 			System.out.println("비번 수정");
+			member = new Student();
+			System.out.println("아이디: ");
+			member.setId(scan.next());
+			System.out.println("변경할 비밀번호: ");
+			member.setPass(scan.next());
+			System.out.println(service.changePass(member));
 			break;
 		case 4:
 			System.out.println("회원탈퇴");
+			member = new Student();
+			System.out.println("아이디: ");
+			member.setId(scan.next());
+			System.out.println(service.remove(member));
 			break;
 		case 5:
 			System.out.println("아이디 존재 체크");
+			System.out.println("아이디: ");
+			System.out.println(service.existId(scan.next()));
 			break;
 		case 6:
 			System.out.println("마이페이지");
+			System.out.println("아이디: ");
+			System.out.println(service.mypage(scan.next()));
 			break;
 		case 7:
 			System.out.println("점수 입력");
+			member = new Student();
+			System.out.println("아이디: ");
+			member.setId(scan.next());
+			System.out.println("점수: ");
+			member.setScore(scan.nextInt());
+			System.out.println(service.score(member));
 			break;
 		default:	System.out.println(Constants.ERROR_MESSAGE);	break;
 		}
 	}
 	
-	public static void adminMenu(Scanner scan, PersonService instance) {
+	public static void adminMenu(Scanner scan, PersonService service) {
 		System.out.println(Constants.ADMIN_MENU);
 		switch (scan.nextInt()) {
 		case 0:
 			System.out.println(Constants.EXIT_MENU);	return;
 		case 1:
 			System.out.println("회원목록");
-			instance.studentList();
+			service.studentList();
 			break;
 		case 2:
 			System.out.println("아이디검색");

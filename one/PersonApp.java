@@ -287,8 +287,7 @@ class PersonServiceImpl implements PersonService{
 			}
 		}		
 		return result;
-	}
-	
+	}	
 }
 
 

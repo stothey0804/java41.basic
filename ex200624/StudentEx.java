@@ -3,9 +3,9 @@ package ex200624;
 import java.util.Scanner;
 
 class Student{
-	private int id, score;
-	private String name, major;
-	public int getId() {
+	private int score;
+	private String id, name, major;
+	public String getId() {
 		return id;
 	}
 	public int getScore() {
@@ -17,7 +17,7 @@ class Student{
 	public String getMajor() {
 		return major;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public void setScore(int score) {
@@ -52,7 +52,7 @@ class StudentServiceImpl implements StudentService{
 		students[count] = new Student();
 		System.out.println("[ 학생입력 ]");
 		System.out.println("학번: ");
-		students[count].setId(scan.nextInt());
+		students[count].setId(scan.next());
 		System.out.println("이름: ");
 		students[count].setName(scan.next());
 		System.out.println("학과: ");
@@ -66,8 +66,12 @@ class StudentServiceImpl implements StudentService{
 	public void getCount() {
 		System.out.println("총 학생수: "+count+"명");
 		float total = 0.0f;
-		for(int i = 0; i < count; i++) {
-			total += students[i].getScore();
+		for(Student s: students) {
+			if(s != null) {
+				total += s.getScore();
+			}else {
+				break;
+			}			
 		}
 		System.out.println("평균점수: "+(total/(float)count));
 	}
@@ -79,10 +83,12 @@ class StudentServiceImpl implements StudentService{
 		System.out.println("[학과별 평점평균]");
 		System.out.println("학과를 입력하세요: ");
 		String major = scan.next();
-		for(int i = 0; i < count; i++) {
-			if(students[i].getMajor().equals(major)) {
-				total += students[i].getScore();
+		for(Student s: students) {
+			if(s != null && major.equals(s.getMajor())) {
+				total += s.getScore();
 				cnt++;
+			}else {
+				break;
 			}
 		}
 		System.out.println("평균점수: "+ (total/(float)cnt));
@@ -92,12 +98,14 @@ class StudentServiceImpl implements StudentService{
 	@Override
 	public void printAllStudent() {
 		System.out.println("[학생목록출력]");
-		for(int i = 0; i < count; i++) {
-			System.out.println("학번: "+students[i].getId());
-			System.out.println("이름: "+students[i].getName());
-			System.out.println("학과: "+students[i].getMajor());
-			System.out.println("학점: "+students[i].getScore());
-			System.out.println("---------------");
+		for(Student s: students) {
+			if(s != null) {
+				System.out.println("학번: "+s.getId());
+				System.out.println("이름: "+s.getName());
+				System.out.println("학과: "+s.getMajor());
+				System.out.println("학점: "+s.getScore());
+				System.out.println("---------------");
+			}			
 		}
 	}
 	

@@ -10,13 +10,14 @@ class Animal{
 	public static int count;	
 	
 	public Animal() {
-		
+		Animal.count(); // count++
 	}
 	
 	public Animal(Animal ani) {
 		this.name = ani.getName();
 		this.age = ani.getAge();
 		this.type = ani.getType();
+		Animal.count();
 	}
 	
 	public String getName() {
@@ -70,7 +71,7 @@ class Animal{
 	@Override
 	public boolean equals(Object obj) {
 		if(obj != null && obj instanceof Animal) {
-			return this.type == ((Animal)obj).type;
+			return this.type == ((Animal)obj).type && this.name == ((Animal)obj).name;
 		}else {
 			return	false;
 		}
@@ -96,11 +97,13 @@ public class AnimalApp {
 		System.out.println(ani.toString()); // ‘나는 Dog이고이름은 멍뭉이 입니다’
 
 		Animal ani2 = new Animal(ani);
+		//Animal ani2 = ani;
+		
 		if(ani2.equals(ani)){
 		 System.out.println("같은 강아지 입니다");
 		}
 		
-		Animal.count(); // 동물 수 Count추가	(과제 조건상 생성자로 생성했을때 추가하는게 아니라 count함수를 호출했을때 추가하도록 함) 
+		// Animal.count(); // 동물 수 Count추가	(과제 조건상 생성자로 생성했을때 추가하는게 아니라 count함수를 호출했을때 추가하도록 함) 
 
 		System.out.println(Animal.totalCount()); // 총 동물수(count) 출력
 	}

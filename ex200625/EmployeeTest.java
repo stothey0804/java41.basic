@@ -3,11 +3,14 @@ package ex200625;
 public class EmployeeTest {
 	public static void main(String[] args) {
 		Employee[] emps = new Employee[2];
-		Employee e = new Employee("홍길동", 29, "대리", "인사팀");
-		Employee e2 = new Manager("홍팀장", 32, "팀장", "인사팀",200000);
+//		Employee e = new Employee("홍길동", 29, "대리", "인사팀");
+//		Employee e2 = new Manager("홍팀장", 32, "팀장", "인사팀",200000);
+//		emps[0] = e;
+//		emps[1] = e2;
 		
-		emps[0] = e;
-		emps[1] = e2;
+		emps[0] = new Employee("홍길동", 29, "대리", "인사팀");
+		emps[1] = new Manager("홍팀장", 32, "팀장", "인사팀",200000);
+		
 		for(Employee i: emps) {
 			System.out.println(i.toString());
 		}		
